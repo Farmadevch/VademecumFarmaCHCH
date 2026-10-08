@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #0b4f8a;
+  --color-primary-dark: #083b68;
+  --color-sidebar: #0e2238;
+  --color-ink: #10233a;
+  --color-muted: #4a5b6e;
+  --color-line: #dce3ea;
+  --color-input-border: #c6d1dc;
+  --color-ground: #f5f8fb;
+  --color-ground-panel: #f2f5f8;
+  --color-chip: #eef3f8;
+
+  --color-ok-bg: #e2f2ee;
+  --color-ok-text: #0b5e52;
+  --color-ok-dot: #0f7b6c;
+  --color-low-bg: #fcefd9;
+  --color-low-text: #7f3f00;
+  --color-low-dot: #c26a00;
+  --color-out-bg: #fbe3e8;
+  --color-out-text: #8e1230;
+  --color-out-ring: #9f1239;
+  --color-ctrl-bg: #ede7f6;
+  --color-ctrl-text: #4b2a86;
+
+  --font-sans: var(--font-public-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-public-sans), system-ui, sans-serif;
+}
+
+/* Borde explícito en los controles de formulario: no depende de las variables internas de Tailwind
+   (--tw-border-style), que fallan en navegadores sin soporte de @property. */
+@layer base {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  select,
+  textarea {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--color-input-border);
+    background-color: #fff;
+  }
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    border-color: var(--color-primary);
+  }
+}
