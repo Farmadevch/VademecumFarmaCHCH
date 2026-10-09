@@ -63,8 +63,8 @@ export default async function MedicamentosPage({ searchParams }: PageProps<"/pan
       </form>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
-        <table className="w-full min-w-[56rem] text-left text-sm">
-          <thead className="border-b border-line bg-chip text-muted">
+        <table className="w-full text-left text-sm md:min-w-[56rem]">
+          <thead className="border-b border-line bg-chip text-muted max-md:hidden">
             <tr>
               <th className="p-3 font-semibold">Medicamento</th>
               <th className="p-3 font-semibold">Presentación</th>
@@ -78,11 +78,11 @@ export default async function MedicamentosPage({ searchParams }: PageProps<"/pan
           </thead>
           <tbody>
             {items.length === 0 && (
-              <tr><td colSpan={8} className="p-6 text-center text-muted">No hay medicamentos para mostrar.</td></tr>
+              <tr className="max-md:block"><td colSpan={8} className="p-6 max-md:block text-center text-muted">No hay medicamentos para mostrar.</td></tr>
             )}
             {items.map((m) => (
-              <tr key={m.id} className={`border-b border-line last:border-0 ${m.activo ? "" : "opacity-60"}`}>
-                <td className="p-3">
+              <tr key={m.id} className={`border-b border-line last:border-0 max-md:block max-md:p-3 ${m.activo ? "" : "opacity-60"}`}>
+                <td className="p-3 max-md:block max-md:px-0 max-md:pt-0">
                   <p className="font-semibold">{m.nombre_generico}</p>
                   <p className="text-muted">
                     {m.nombre_comercial}
@@ -90,13 +90,13 @@ export default async function MedicamentosPage({ searchParams }: PageProps<"/pan
                     {!m.activo && <span className="ml-2 text-xs font-semibold">(archivado)</span>}
                   </p>
                 </td>
-                <td className="p-3"><span className="font-mono">{m.concentracion}</span> · {FORMA_LABEL[m.forma as Forma] ?? m.forma}</td>
-                <td className="p-3">{m.laboratorio ?? "—"}</td>
-                <td className="p-3 text-right font-mono">{m.stock_total}</td>
-                <td className="p-3 text-right font-mono">{m.stock_minimo}</td>
-                <td className="p-3 font-mono">{m.proximo_vencimiento ? fechaAR(m.proximo_vencimiento) : "—"}</td>
-                <td className="p-3"><EstadoBadge estado={m.estado} /></td>
-                <td className="p-3">
+                <td data-label="Presentación" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]"><span><span className="font-mono">{m.concentracion}</span> · {FORMA_LABEL[m.forma as Forma] ?? m.forma}</span></td>
+                <td data-label="Laboratorio" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{m.laboratorio ?? "—"}</td>
+                <td data-label="Stock" className="p-3 text-right font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{m.stock_total}</td>
+                <td data-label="Mínimo" className="p-3 text-right font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{m.stock_minimo}</td>
+                <td data-label="Próx. venc." className="p-3 font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{m.proximo_vencimiento ? fechaAR(m.proximo_vencimiento) : "—"}</td>
+                <td data-label="Estado" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]"><EstadoBadge estado={m.estado} /></td>
+                <td className="p-3 max-md:block max-md:px-0 max-md:pb-0">
                   <div className="flex gap-1">
                     <Link href={`/panel/medicamentos/${m.id}`} aria-label={`Editar ${m.nombre_generico}`} title="Editar" className="grid size-11 place-items-center rounded-lg hover:bg-chip"><Pencil aria-hidden className="size-4" /></Link>
                     <Link href={`/panel/movimientos?medicamento=${m.id}`} aria-label={`Registrar movimiento de ${m.nombre_generico}`} title="Movimiento" className="grid size-11 place-items-center rounded-lg hover:bg-chip"><ArrowLeftRight aria-hidden className="size-4" /></Link>

@@ -47,8 +47,8 @@ export default async function UsuariosPage() {
       </section>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
-        <table className="w-full min-w-[40rem] text-left text-sm">
-          <thead className="border-b border-line bg-chip text-muted">
+        <table className="w-full text-left text-sm md:min-w-[40rem]">
+          <thead className="border-b border-line bg-chip text-muted max-md:hidden">
             <tr>
               <th className="p-3 font-semibold">Nombre</th>
               <th className="p-3 font-semibold">Correo</th>
@@ -61,10 +61,10 @@ export default async function UsuariosPage() {
             {(perfiles.data ?? []).map((p) => {
               const esYo = p.id === sesion.userId;
               return (
-                <tr key={p.id} className="border-b border-line last:border-0">
-                  <td className="p-3 font-semibold">{p.nombre}{esYo && <span className="ml-2 text-xs font-medium text-muted">(vos)</span>}</td>
-                  <td className="p-3">{emails.get(p.id) ?? "—"}</td>
-                  <td className="p-3">
+                <tr key={p.id} className="border-b border-line last:border-0 max-md:block max-md:p-3">
+                  <td className="p-3 font-semibold max-md:block max-md:px-0 max-md:pt-0">{p.nombre}{esYo && <span className="ml-2 text-xs font-medium text-muted">(vos)</span>}</td>
+                  <td data-label="Correo" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)] max-md:break-all">{emails.get(p.id) ?? "—"}</td>
+                  <td data-label="Rol" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">
                     <form action={actualizarUsuario} className="flex items-center gap-2">
                       <input type="hidden" name="id" value={p.id} />
                       <input type="hidden" name="activo" value={String(p.activo)} />
@@ -76,12 +76,12 @@ export default async function UsuariosPage() {
                       {!esYo && <button className="min-h-11 rounded-lg border border-input-border px-3 font-medium">Guardar</button>}
                     </form>
                   </td>
-                  <td className="p-3">
+                  <td data-label="Estado" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">
                     <span className={`rounded-full px-3 py-1 font-semibold ${p.activo ? "bg-ok-bg text-ok-text" : "bg-out-bg text-out-text"}`}>
                       {p.activo ? "Activo" : "Desactivado"}
                     </span>
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 max-md:block max-md:px-0 max-md:pb-0 empty:hidden">
                     {!esYo && (
                       <form action={actualizarUsuario}>
                         <input type="hidden" name="id" value={p.id} />

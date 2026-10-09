@@ -42,8 +42,8 @@ export default async function AuditoriaPage() {
       <p className="mb-4 text-sm text-muted">Últimas 200 acciones sobre medicamentos, lotes y usuarios.</p>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
-        <table className="w-full min-w-[44rem] text-left text-sm">
-          <thead className="border-b border-line bg-chip text-muted">
+        <table className="w-full text-left text-sm md:min-w-[44rem]">
+          <thead className="border-b border-line bg-chip text-muted max-md:hidden">
             <tr>
               <th className="p-3 font-semibold">Fecha</th>
               <th className="p-3 font-semibold">Usuario</th>
@@ -54,15 +54,15 @@ export default async function AuditoriaPage() {
           </thead>
           <tbody>
             {(log.data ?? []).length === 0 && (
-              <tr><td colSpan={5} className="p-6 text-center text-muted">Sin registros.</td></tr>
+              <tr className="max-md:block"><td colSpan={5} className="p-6 max-md:block text-center text-muted">Sin registros.</td></tr>
             )}
             {(log.data ?? []).map((a) => (
-              <tr key={a.id} className="border-b border-line last:border-0">
-                <td className="p-3 font-mono">{new Date(a.created_at!).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" })}</td>
-                <td className="p-3">{a.usuario_id ? (nombres.get(a.usuario_id) ?? "Usuario eliminado") : "Sistema"}</td>
-                <td className="p-3">{ACCION[a.accion] ?? a.accion}</td>
-                <td className="p-3">{a.tabla}</td>
-                <td className="p-3 text-muted">
+              <tr key={a.id} className="border-b border-line last:border-0 max-md:block max-md:p-3">
+                <td className="p-3 font-mono max-md:block max-md:px-0 max-md:pt-0 max-md:font-semibold">{new Date(a.created_at!).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" })}</td>
+                <td data-label="Usuario" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{a.usuario_id ? (nombres.get(a.usuario_id) ?? "Usuario eliminado") : "Sistema"}</td>
+                <td data-label="Acción" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{ACCION[a.accion] ?? a.accion}</td>
+                <td data-label="Tabla" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{a.tabla}</td>
+                <td data-label="Detalle" className="p-3 text-muted max-md:block max-md:px-0 max-md:py-1.5 max-md:break-words">
                   {resumen({
                     tabla: a.tabla,
                     datos_antes: a.datos_antes as Record<string, unknown> | null,

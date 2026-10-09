@@ -65,8 +65,8 @@ export default async function LotesPage({ searchParams }: PageProps<"/panel/lote
       </nav>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
-        <table className="w-full min-w-[40rem] text-left text-sm">
-          <thead className="border-b border-line bg-chip text-muted">
+        <table className="w-full text-left text-sm md:min-w-[40rem]">
+          <thead className="border-b border-line bg-chip text-muted max-md:hidden">
             <tr>
               <th className="p-3 font-semibold">Medicamento</th>
               <th className="p-3 font-semibold">Lote</th>
@@ -77,15 +77,15 @@ export default async function LotesPage({ searchParams }: PageProps<"/panel/lote
           </thead>
           <tbody>
             {filas.length === 0 && (
-              <tr><td colSpan={5} className="p-6 text-center text-muted">No hay lotes para mostrar.</td></tr>
+              <tr className="max-md:block"><td colSpan={5} className="p-6 max-md:block text-center text-muted">No hay lotes para mostrar.</td></tr>
             )}
             {filas.map((l) => (
-              <tr key={l.id} className="border-b border-line last:border-0">
-                <td className="p-3 font-semibold">{l.med?.nombre_generico} <span className="font-mono font-medium text-muted">{l.med?.concentracion}</span></td>
-                <td className="p-3 font-mono">{l.nro_lote}</td>
-                <td className="p-3 font-mono">{fechaAR(l.vencimiento)}</td>
-                <td className="p-3 text-right font-mono">{l.cantidad}</td>
-                <td className="p-3">
+              <tr key={l.id} className="border-b border-line last:border-0 max-md:block max-md:p-3">
+                <td className="p-3 font-semibold max-md:block max-md:px-0 max-md:pt-0">{l.med?.nombre_generico} <span className="font-mono font-medium text-muted">{l.med?.concentracion}</span></td>
+                <td data-label="Lote" className="p-3 font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{l.nro_lote}</td>
+                <td data-label="Vencimiento" className="p-3 font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{fechaAR(l.vencimiento)}</td>
+                <td data-label="Cantidad" className="p-3 text-right font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{l.cantidad}</td>
+                <td data-label="Situación" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">
                   {l.restan < 0 ? (
                     <span className="rounded-full bg-out-bg px-3 py-1 font-semibold text-out-text">Vencido</span>
                   ) : l.restan <= 30 ? (

@@ -76,8 +76,8 @@ export default async function MovimientosPage({ searchParams }: PageProps<"/pane
       </section>
 
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
-        <table className="w-full min-w-[40rem] text-left text-sm">
-          <thead className="border-b border-line bg-chip text-muted">
+        <table className="w-full text-left text-sm md:min-w-[40rem]">
+          <thead className="border-b border-line bg-chip text-muted max-md:hidden">
             <tr>
               <th className="p-3 font-semibold">Fecha</th>
               <th className="p-3 font-semibold">Medicamento</th>
@@ -89,19 +89,19 @@ export default async function MovimientosPage({ searchParams }: PageProps<"/pane
           </thead>
           <tbody>
             {(movs.data ?? []).length === 0 && (
-              <tr><td colSpan={6} className="p-6 text-center text-muted">Todavía no hay movimientos.</td></tr>
+              <tr className="max-md:block"><td colSpan={6} className="p-6 max-md:block text-center text-muted">Todavía no hay movimientos.</td></tr>
             )}
             {(movs.data ?? []).map((m) => {
               const lote = m.lotes as unknown as { nro_lote: string; medicamentos: L | null } | null;
               const signo = m.tipo === "ingreso" || (m.tipo === "ajuste" && m.sentido === 1) ? "+" : "−";
               return (
-                <tr key={m.id} className="border-b border-line last:border-0">
-                  <td className="p-3 font-mono">{new Date(m.created_at!).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" })}</td>
-                  <td className="p-3">{lote?.medicamentos?.nombre_generico} <span className="font-mono text-muted">{lote?.medicamentos?.concentracion}</span></td>
-                  <td className="p-3 font-mono">{lote?.nro_lote}</td>
-                  <td className="p-3">{TIPO_LABEL[m.tipo as keyof typeof TIPO_LABEL]}</td>
-                  <td className="p-3 text-right font-mono">{signo}{m.cantidad}</td>
-                  <td className="p-3 text-muted">{m.motivo}</td>
+                <tr key={m.id} className="border-b border-line last:border-0 max-md:block max-md:p-3">
+                  <td className="p-3 font-mono max-md:block max-md:px-0 max-md:pt-0 max-md:font-semibold">{new Date(m.created_at!).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" })}</td>
+                  <td className="p-3 max-md:block max-md:px-0 max-md:py-1 max-md:font-semibold">{lote?.medicamentos?.nombre_generico} <span className="font-mono text-muted">{lote?.medicamentos?.concentracion}</span></td>
+                  <td data-label="Lote" className="p-3 font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{lote?.nro_lote}</td>
+                  <td data-label="Tipo" className="p-3 max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{TIPO_LABEL[m.tipo as keyof typeof TIPO_LABEL]}</td>
+                  <td data-label="Cantidad" className="p-3 text-right font-mono max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)]">{signo}{m.cantidad}</td>
+                  <td data-label="Motivo" className="p-3 text-muted max-md:flex max-md:items-center max-md:justify-between max-md:gap-3 max-md:px-0 max-md:py-1.5 max-md:before:font-semibold max-md:before:text-muted max-md:before:content-[attr(data-label)] max-md:text-right max-md:empty:hidden">{m.motivo}</td>
                 </tr>
               );
             })}
