@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "Vademécum · Farmacia Hospital de Choele Choel",
   description:
     "Buscá medicamentos y consultá si hay stock en la Farmacia del Hospital de Choele Choel.",
+  icons: { icon: { url: "/vademecum.ico", type: "image/x-icon" } },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
